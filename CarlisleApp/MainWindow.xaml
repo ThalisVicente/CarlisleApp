@@ -5,8 +5,114 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarlisleApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Carlisle App - Thalis Vicente" Height="460" Width="800">
+    <Grid Background="CadetBlue">
+        <StackPanel Orientation="Vertical" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Center" >
+                <TextBox Name="tbInputItem" 
+                         Width="160"
+                         Height="30"                          
+                         Background="#FF9C2424" 
+                         Foreground="Red"
+                         FontWeight="Bold" 
+                         TextAlignment="Center" 
+                         FontFamily="Arial" 
+                         FontSize="24" 
+                         BorderBrush="Black"/>
+                <Button Content="Save"
+                        Margin="8,0,0,0"
+                        Height="30"  
+                        Width="75" 
+                        Click="btCreateItem_Click" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="5">
+                <Grid x:Name="gridAttributeButtons"  Height="270">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Button Name="btAttribute1" 
+                            Margin="5"
+                            Grid.Row="0" Grid.Column="0"
+                            Content="-" 
+                            IsEnabled="False" 
+                            Click="btAttribute_Click"/>
+                    <Button Name="btAttribute2" 
+                            Margin="5"
+                            Grid.Row="0" Grid.Column="1"
+                            Content="-" 
+                            IsEnabled="False" 
+                            Click="btAttribute_Click"/>
+                    <Button Name="btAttribute3" 
+                            Margin="5"
+                            Grid.Row="0" Grid.Column="2"
+                            Content="-"
+                            IsEnabled="False" 
+                            Click="btAttribute_Click"/>
+                    <Button Name="btAttribute4" 
+                            Margin="5"
+                            Grid.Row="0" Grid.Column="3"
+                            Content="-" 
+                            IsEnabled="False" 
+                            Click="btAttribute_Click"/>
+                    <Button Name="btAttribute5" 
+                            Margin="5"
+                            Grid.Row="1" Grid.Column="0"
+                            Content="-" 
+                            IsEnabled="False" 
+                            Click="btAttribute_Click"/>
+                    <Button Name="btAttribute6" 
+                            Margin="5"
+                            Grid.Row="1" Grid.Column="1"
+                            Content="-" 
+                            IsEnabled="False" 
+                            Click="btAttribute_Click"/>
+                    <Button Name="btAttribute7" 
+                            Margin="5"
+                            Grid.Row="1" Grid.Column="2"
+                            Content="-" 
+                            IsEnabled="False" 
+                            Click="btAttribute_Click"/>
+                    <Button Name="btAttribute8" 
+                            Margin="5"
+                            Grid.Row="1" Grid.Column="3"
+                            Content="-" 
+                            IsEnabled="False" 
+                            Click="btAttribute_Click"/>
+                </Grid>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="5">
+                <Grid x:Name="gridButtons" Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Button Content="Import CSV" 
+                            Margin="5"
+                        Grid.Column="0"
+                        Click="ImportCsv_Click"/>
+                    <Button Content="View Items" 
+                            Margin="5"
+                        Grid.Column="1"
+                            Click="ViewAllItems_Click"/>
+                    <Button Content="Exit" 
+                            Margin="5"
+                        Grid.Column="2"/>
+                </Grid>
+
+            </StackPanel>
+        </StackPanel>
+
+        <Frame x:Name="frameViewAllItems"/>
     </Grid>
 </Window>
