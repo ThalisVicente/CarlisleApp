@@ -5,27 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarlisleApp"
         mc:Ignorable="d"
-        Title="Carlisle App - Thalis Vicente" Height="460" Width="800">
-    <Grid Background="CadetBlue">
-        <StackPanel Orientation="Vertical" Margin="10">
-            <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Center" >
-                <TextBox Name="tbInputItem" 
-                         Width="160"
-                         Height="30"                          
-                         Background="#FF9C2424" 
-                         Foreground="Red"
-                         FontWeight="Bold" 
-                         TextAlignment="Center" 
-                         FontFamily="Arial" 
-                         FontSize="24" 
-                         BorderBrush="Black"/>
-                <Button Content="Save"
-                        Margin="8,0,0,0"
-                        Height="30"  
-                        Width="75" 
+        Icon="./Assets/Logo_Windows.png"
+             Width="{x:Static SystemParameters.PrimaryScreenWidth}"
+             Height="{x:Static SystemParameters.PrimaryScreenHeight}"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="./#Segoe UI" 
+        Title="Carlisle App - Thalis Vicente" >
+    <Grid Background="#aec6cf">
+        <StackPanel Orientation="Vertical" Margin="40">
+            <StackPanel Orientation="Vertical" Margin="20" >
+                <Grid x:Name="gridTop" Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <TextBox Name="tbInputItem" 
+                         Margin="5"
+                         Background="#f5f5f5" 
+                         Foreground="#00428B"
+                         FontWeight="Bold"                     
+                         FontSize="34" 
+                         Grid.Column="1"
+                             VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center"
+                         BorderBrush="#00428B">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <Button Content="SAVE"
+                            Margin="5"
+                            Grid.Column="2"
+                        Background="#00428B"
                         Click="btCreateItem_Click" />
+
+                </Grid>
+
             </StackPanel>
-            <StackPanel Orientation="Vertical" Margin="5">
+            <StackPanel Orientation="Vertical" Margin="20">
                 <Grid x:Name="gridAttributeButtons"  Height="270">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -87,7 +110,7 @@
                             Click="btAttribute_Click"/>
                 </Grid>
             </StackPanel>
-            <StackPanel Orientation="Vertical" Margin="5">
+            <StackPanel Orientation="Vertical" Margin="20">
                 <Grid x:Name="gridButtons" Height="80">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -97,22 +120,63 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
-                    <Button Content="Import CSV" 
+                    <Button Content="IMPORT CSV" 
                             Margin="5"
                         Grid.Column="0"
+                            Background="#00428B"
                         Click="ImportCsv_Click"/>
-                    <Button Content="View Items" 
+                    <Button Content="VIEW ITEMS" 
                             Margin="5"
                         Grid.Column="1"
+                            Background="#00428B"
                             Click="ViewAllItems_Click"/>
-                    <Button Content="Exit" 
+                    <Button Content="EXIT" 
                             Margin="5"
+                            Background="#00428B"
+                            Click="CloseApplication_Click"
                         Grid.Column="2"/>
                 </Grid>
 
             </StackPanel>
         </StackPanel>
 
-        <Frame x:Name="frameViewAllItems"/>
+
+        <Frame x:Name="frameViewAllItems" NavigationUIVisibility="Hidden"/>
     </Grid>
+
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Gray" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontFamily" Value="./#Segoe UI" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E59400" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="OrangeRed" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 </Window>

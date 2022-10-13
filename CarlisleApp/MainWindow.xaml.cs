@@ -36,8 +36,15 @@ namespace CarlisleApp
             Service = new Service.Service();
             Item = new Item();
             SelectedAttributeTitles = new List<string>();
-            AllAttributeTitles = new List<string>();
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            int nWidth = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
+            int nHieght = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
+
+            this.LayoutTransform = new ScaleTransform(nWidth / 1920, nHieght / 1080);
         }
 
         private void btCreateItem_Click(object sender, RoutedEventArgs e)
@@ -86,16 +93,20 @@ namespace CarlisleApp
         private void ImportCsv_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.ShowDialog();
-            openFileDialog.Filter = "CSV Files|*.csv";
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv|XML files (*.xml)|*.xml";
             openFileDialog.Multiselect = false;
 
-            using (StreamReader streamReader = new StreamReader(openFileDialog.FileName))
+            if (openFileDialog.ShowDialog() == true)
             {
-                AllAttributeTitles = File.ReadLines(openFileDialog.FileName).Take((short)MaxAttributes.MaxAttributes).ToList();
-            }
+                AllAttributeTitles = new List<string>();
 
-            LoadAllAttributeButtons();
+                using (StreamReader streamReader = new StreamReader(openFileDialog.FileName))
+                {
+                    AllAttributeTitles = File.ReadLines(openFileDialog.FileName).Take((short)MaxAttributes.MaxAttributes).ToList();
+                }
+
+                LoadAllAttributeButtons();
+            }
         }
 
         private void LoadAllAttributeButtons()
@@ -105,8 +116,8 @@ namespace CarlisleApp
             foreach (var attribute in AllAttributeTitles)
             {
                 Button button = (Button)this.FindName($"btAttribute{index}");
-                button.Content = attribute;
-                button.Background = Brushes.LightGray;
+                button.Content = attribute.ToUpper();
+                button.Background = Brushes.Gray;
                 button.IsEnabled = true;
                 index++;
             }
@@ -123,13 +134,19 @@ namespace CarlisleApp
             else
             {
                 SelectedAttributeTitles.Remove(button.Content.ToString());
-                button.Background = Brushes.LightGray;
+                button.Background = Brushes.Gray;
             }
         }
 
         private void ViewAllItems_Click(object sender, RoutedEventArgs e)
         {
             frameViewAllItems.Content = new ViewItems(this);
+            frameViewAllItems.Visibility = Visibility.Visible;
+        }
+
+        private void CloseApplication_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

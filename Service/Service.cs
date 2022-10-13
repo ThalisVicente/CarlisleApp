@@ -20,13 +20,12 @@ namespace Service
 
         public List<Item> GetAllItems()
         {
+            var items = new List<Item>();
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
             {
-                var items = connection.Query<Classes.Item>("select * from Item", new DynamicParameters());
-                items.Select(i => i.Attributes = GetAttributesByItemId(i.Id));
-
-
-                return items.ToList();
+                items = connection.Query<Item>("select * from Item", new DynamicParameters()).ToList();
+                items.Select(i => i.Attributes = GetAttributesByItemId(i.Id)).ToList();
+                return items;
             }
         }
 

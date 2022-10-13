@@ -5,21 +5,62 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CarlisleApp.Pages"
       mc:Ignorable="d" 
+       FontFamily="./#Segoe UI" 
       d:DesignHeight="460" d:DesignWidth="800"
       Title="ViewItems">
 
-    <Grid Background="CadetBlue">
-        <StackPanel Orientation="Vertical">
-        <DataGrid x:Name="dgItems" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Item ID" Binding="{Binding Id}"/>
-                    <DataGridTextColumn Header="Attribute" Binding="{Binding AttributesText}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-            <Button Content="Exit" 
-                            Margin="5"
+    <Grid Background="#aec6cf">
+        <StackPanel Orientation="Vertical" Margin="40">
+            <StackPanel Orientation="Horizontal" Margin="20" HorizontalAlignment="Left" >
+                <Label Content="ITEMS ID REGISTERED"
+                         Width="auto"
+                         Height="40"                         
+                         Foreground="#00428B"
+                         FontWeight="Bold"                       
+                         FontSize="24" 
+                         BorderBrush="#00428B">
+                </Label>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="20">
+                <DataGrid x:Name="dgItems" 
+                      IsReadOnly="True"
+                  HorizontalAlignment="Center"
+                  Height="270"
+                  Width="500"
+                  FontSize="18"
+                  Background="gray"
+                  AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Item ID" Binding="{Binding Id, StringFormat=0000}" Width="80" />
+                        <DataGridTextColumn Header="Attribute" Binding="{Binding AttributesText}" Width="380" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="20">
+                <Grid x:Name="gridAttributeButtons" Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Button Content="BACK" 
+                        Background="#00428B"
+                    Foreground="White"
+                    FontSize="18"
+                    Margin="5"
                         Grid.Column="2"
-                    Click="Exit_Click"/>
+                    Click="Exit_Click">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
