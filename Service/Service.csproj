@@ -68,12 +68,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Attribute.cs" />
-    <Compile Include="Classes\DBRequestResult.cs" />
-    <Compile Include="Classes\Item.cs" />
+    <Compile Include="Library\Classes\AttributeModel.cs" />
+    <Compile Include="Library\Classes\DBRequestResult.cs" />
+    <Compile Include="Library\Classes\ItemModel.cs" />
     <Compile Include="Enum\MaxAttributes.cs" />
     <Compile Include="Enum\MaxDigitsInputItem.cs" />
-    <Compile Include="Service.cs" />
+    <Compile Include="Library\DataBaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

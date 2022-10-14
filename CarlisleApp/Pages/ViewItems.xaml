@@ -6,9 +6,8 @@
       xmlns:local="clr-namespace:CarlisleApp.Pages"
       mc:Ignorable="d" 
        FontFamily="./#Segoe UI" 
-      d:DesignHeight="460" d:DesignWidth="800"
+      d:DesignHeight="630" d:DesignWidth="900"
       Title="ViewItems">
-
     <Grid Background="#aec6cf">
         <StackPanel Orientation="Vertical" Margin="40">
             <StackPanel Orientation="Horizontal" Margin="20" HorizontalAlignment="Left" >
@@ -25,14 +24,14 @@
                 <DataGrid x:Name="dgItems" 
                       IsReadOnly="True"
                   HorizontalAlignment="Center"
-                  Height="270"
-                  Width="500"
+                  Height="310"
+                  Width="700"
                   FontSize="18"
                   Background="gray"
                   AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Item ID" Binding="{Binding Id, StringFormat=0000}" Width="80" />
-                        <DataGridTextColumn Header="Attribute" Binding="{Binding AttributesText}" Width="380" />
+                        <DataGridTextColumn Header="Attribute" Binding="{Binding AttributesText}" Width="594" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
@@ -63,4 +62,34 @@
             </StackPanel>
         </StackPanel>
     </Grid>
+    <Page.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Gray" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontFamily" Value="./#Segoe UI" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="CadetBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="CadetBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 </Page>

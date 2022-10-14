@@ -1,22 +1,13 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Service.Enum;
-using Service.Classes;
-using Service;
+using Service.Library.Classes;
+using Service.Library;
 using CarlisleApp.Pages;
 
 namespace CarlisleApp
@@ -26,43 +17,45 @@ namespace CarlisleApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Service.Service Service { get; set; }
-        private Item Item { get; set; }
+        private DataBaseService DataBaseService { get; set; }
+        private ItemModel Item { get; set; }
         private List<string> SelectedAttributeTitles { get; set; }
         private List<string> AllAttributeTitles { get; set; }
 
         public MainWindow()
         {
-            Service = new Service.Service();
-            Item = new Item();
-            SelectedAttributeTitles = new List<string>();
+            InitializeProperties();
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void InitializeProperties()
         {
-            int nWidth = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
-            int nHieght = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
-
-            this.LayoutTransform = new ScaleTransform(nWidth / 1920, nHieght / 1080);
+            DataBaseService = new DataBaseService();
+            Item = new ItemModel();
+            SelectedAttributeTitles = new List<string>();
+            AllAttributeTitles = new List<string>();
         }
 
-        private void btCreateItem_Click(object sender, RoutedEventArgs e)
+        private void OnClickCreateItem_Click(object sender, RoutedEventArgs e)
         {
             if (IsValidInputItem())
             {
-                LoadItem();
-                var dbRequestResult = Service.CreateItem(Item);
-                MessageBox.Show(dbRequestResult.Message);
+                LoadItemModel();
+                var dbRequestResult = DataBaseService.CreateItem(Item);
+
                 if (dbRequestResult.Success)
+                {
+                    ShowSuccessMessageBox(dbRequestResult.Message);
                     ClearFields();
+                }
             }
             else
-                MessageBox.Show("Please, Upload the attributes and enter a valid 4 digit Item Id");
+                ShowErrorMessageBox("Please, enter a valid 4 digit Item Id");
         }
 
         private void ClearFields()
         {
+            Item = new ItemModel();
             tbInputItem.Text = string.Empty;
             SelectedAttributeTitles.Clear();
             if (AllAttributeTitles.Any())
@@ -71,18 +64,17 @@ namespace CarlisleApp
 
         private bool IsValidInputItem()
         {
-            return int.TryParse(tbInputItem.Text, out var item) 
-                && tbInputItem.Text.Length == (short)MaxDigitsInputItem.MaxDigitsInputItem
-                && AllAttributeTitles.Any();
+            return int.TryParse(tbInputItem.Text, out var item)
+                && tbInputItem.Text.Length == (short)MaxDigitsInputItem.MaxDigitsInputItem;
         }
 
-        private void LoadItem()
+        private void LoadItemModel()
         {
             Item.Id = int.Parse(tbInputItem.Text);
 
             foreach (var title in SelectedAttributeTitles)
             {
-                Item.Attributes.Add(new Service.Classes.Attribute
+                Item.Attributes.Add(new AttributeModel
                 {
                     Title = title,
                     ItemId = Item.Id
@@ -90,7 +82,7 @@ namespace CarlisleApp
             }
         }
 
-        private void ImportCsv_Click(object sender, RoutedEventArgs e)
+        private void OnClickImportCsv_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "CSV files (*.csv)|*.csv|XML files (*.xml)|*.xml";
@@ -98,13 +90,15 @@ namespace CarlisleApp
 
             if (openFileDialog.ShowDialog() == true)
             {
-                AllAttributeTitles = new List<string>();
+                AllAttributeTitles.Clear();
 
                 using (StreamReader streamReader = new StreamReader(openFileDialog.FileName))
                 {
-                    AllAttributeTitles = File.ReadLines(openFileDialog.FileName).Take((short)MaxAttributes.MaxAttributes).ToList();
+                    var lines = File.ReadLines(openFileDialog.FileName).Take((short)MaxAttributes.MaxAttributes).ToList();
+                    AllAttributeTitles = lines.Select(a => a.Split(',').First()).ToList();
                 }
 
+                ClearAllAttributeButtons();
                 LoadAllAttributeButtons();
             }
         }
@@ -123,7 +117,18 @@ namespace CarlisleApp
             }
         }
 
-        private void btAttribute_Click(object sender, RoutedEventArgs e)
+        private void ClearAllAttributeButtons()
+        {
+            for (var i = 1; i <= (short)MaxAttributes.MaxAttributes; i++)
+            {
+                Button button = (Button)this.FindName($"btAttribute{i}");
+                button.Content = "-";
+                button.Background = Brushes.Gray;
+                button.IsEnabled = false;
+            }
+        }
+
+        private void OnClickAttributeButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             if (!SelectedAttributeTitles.Any(t => t == button.Content.ToString()))
@@ -148,5 +153,16 @@ namespace CarlisleApp
         {
             Application.Current.Shutdown();
         }
+
+        private void ShowErrorMessageBox(string message)
+        {
+            MessageBox.Show(message, "Carlisle", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        public void ShowSuccessMessageBox(string message)
+        {
+            MessageBox.Show(message, "Carlisle", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
     }
 }

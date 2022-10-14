@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Classes
+namespace Service.Library.Classes
 {
-    public class Attribute
+    public class AttributeModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
